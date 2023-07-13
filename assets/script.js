@@ -1,4 +1,3 @@
-// Define your quiz questions here
 const quizQuestions = [
     {
       question: "Where inside of HTML can you insert JavaScript?",
@@ -40,22 +39,19 @@ const quizQuestions = [
   const submitButton = document.getElementById("submit");
   let currentQuestionIndex = 0;
   let timeLeft = 60; 
-  
- //STARTS QUIZ
+
   function startQuiz() {
     startButton.style.display = "none";
     questionContainer.style.display = "block";
-    setNextQuestion();
+    NextQuestion();
     startTimer();
   }
-  
-  //NEXT QUESTIUON
-  function setNextQuestion() {
+
+  function NextQuestion() {
     resetQuestionState();
     showQuestion(quizQuestions[currentQuestionIndex]);
   }
-  
-  //DISPLAYS QUESTION
+
   function showQuestion(question) {
     questionText.textContent = question.question;
   
@@ -66,8 +62,7 @@ const quizQuestions = [
       choicesList.appendChild(choice);
     }
   }
-  
-  //CHECKS ANSWER
+
   function checkAnswer(event) {
     const selectedChoice = event.target;
     const selectedAnswer = Array.from(choicesList.children).indexOf(selectedChoice);
@@ -81,16 +76,14 @@ const quizQuestions = [
   
     resultContainer.style.display = "block";
     currentQuestionIndex++;
-  
-     //DELAY QUESTION
+
     if (currentQuestionIndex < quizQuestions.length) {
-      setTimeout(setNextQuestion, 10);
+      setTimeout(NextQuestion, 10);
     } else {
       endQuiz();
     }
   }
-  
-  //RESET STATE
+
   function resetQuestionState() {
     while (choicesList.firstChild) {
       choicesList.removeChild(choicesList.firstChild);
@@ -112,8 +105,7 @@ const quizQuestions = [
     }, 1000);
   }
 
-//ENDS QUIZ
-function endQuiz() {
+  function endQuiz() {
     clearInterval(timer);
     questionContainer.style.display = "none";
     resultContainer.style.display = "block";
@@ -122,21 +114,39 @@ function endQuiz() {
     submitButton.style.display = "inline";
     namesInput.style.display = "block";
     submitButton.style.display = "block";
-    submitButton.addEventListener("click", saveScore);
+    submitButton.addEventListener("click", savedScoreandLeaderboard);
   }
   
-  
-  //SAVE SCORE (NOT FINISHED)
-function saveScore() {
-  const names = namesInput.value.trim();
-  if (names !== "") {
-    const scoreData = {
-      names: names,
-      score: timeLeft
-      };
+  function savedScoreandLeaderboard() {
+    const playerName = namesInput.value.trim();
+    if (playerName !== "") {
+      const scores = JSON.parse(localStorage.getItem("scores")) || [];
+      scores.push({ name: playerName, score: timeLeft });
+      localStorage.setItem("scores", JSON.stringify(scores));
+      namesInput.value = "";
+      submitButton.removeEventListener("click", savedScoreandLeaderboard);
+      showLeaderboard();
     }
   }
-  submitButton.addEventListener("click", saveScore);
-  startButton.addEventListener("click", startQuiz);
 
+  // LEADERBOARD (WORKING ON IT)
+  function showLeaderboard() {
+    const leaderboardContainer = document.getElementById("leaderboard-container");
+    leaderboardContainer.style.display = "block";
+  
+    const leaderboardList = document.getElementById("leaderboard-list");
+    leaderboardList.innerHTML = "";
+  
+    const scores = JSON.parse(localStorage.getItem("scores")) || [];
+    scores.sort((a, b) => b.score - a.score);
+  
+    scores.forEach((entry, index) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${index + 1}. ${entry.name}: ${entry.score}`;
+      leaderboardList.appendChild(listItem);
+    });
+  }
+  
+
+  startButton.addEventListener("click", startQuiz);
 //Got help from a family member. All code is written by me and I learned much from this activity.
