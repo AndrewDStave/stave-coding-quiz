@@ -158,4 +158,4 @@ const quizQuestions = [
   
 
   startButton.addEventListener("click", startQuiz);
-//Got help from a family member. All code is written by me and I learned much from this activity.
+//For this assignment, I had a lot of trouble. I got a lot of help from a family member, and some of the code I had help writing. I learned a bunch from this activity.
