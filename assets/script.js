@@ -26,6 +26,16 @@ const quizQuestions = [
       choices: ["Yes", "No",],
       correctAnswer: 0
     },
+    {
+      question: "JavaScript is the most popular coding language today",
+      choices: ["False", "True",],
+      correctAnswer: 1
+    },
+    {
+      question: "What element is used to store and manipulate text?",
+      choices: ["Strings", "Variables", "Arrays", "Function"],
+      correctAnswer: 0
+    },
   ];
     
   const startButton = document.getElementById("start");
@@ -70,8 +80,7 @@ const quizQuestions = [
     if (selectedAnswer === quizQuestions[currentQuestionIndex].correctAnswer) {
       resultText.textContent = "Correct!";
     } else {
-      resultText.textContent = "Wrong!";
-      timeLeft -= 10;
+      timeLeft -= 20;
     }
   
     resultContainer.style.display = "block";
