@@ -48,7 +48,7 @@ const quizQuestions = [
   }
 
   function NextQuestion() {
-    resetQuestionState();
+    resetQuestion();
     showQuestion(quizQuestions[currentQuestionIndex]);
   }
 
@@ -84,7 +84,7 @@ const quizQuestions = [
     }
   }
 
-  function resetQuestionState() {
+  function resetQuestion() {
     while (choicesList.firstChild) {
       choicesList.removeChild(choicesList.firstChild);
     }
